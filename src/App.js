@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useMemo, useState } from "react";
+import "./App.css";
+import { bigArray } from "./components/array";
 
 function App() {
+  const [count, setCount] = useState(0);
+  const handleIncrement = () => {
+    setCount(count + 1);
+  };
+
+  const [items] = useState(bigArray);
+
+  const [change, setChange] = useState(0)
+
+  const selectedItem = useMemo(() => {
+    return items.filter((item) => item.isSelected);
+  }, [items, change]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={handleIncrement}>+</button>
+      <h2>Selected Item: {selectedItem[0]?.id}</h2>
+      <button onClick={() => {
+        setChange(change+20)
+        console.log(change);
+        // change+20
+      }}>setChange</button>
     </div>
   );
 }
